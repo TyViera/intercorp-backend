@@ -8,9 +8,11 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorEnums {
 
-  UNKNOWN("E001", "Unknown error."), NO_DATA("E002",
-      "There are not data in list."), INSUFFICIENT_DATA("E003",
-          "There are not sufficient data for calculate values.");
+  INSUFFICIENT_DATA("E001", "There are not enough data for calculate values."), //
+  NO_DATA("E002", "There are not data in list."), //
+  BORN_DATE("E003", "Born date is not valid!"), //
+  DEATH_DATE("E004", "Death date is not valid!"), //
+  UNKNOWN("E999", "Unknown error.");
 
   private final String code;
   private final String message;

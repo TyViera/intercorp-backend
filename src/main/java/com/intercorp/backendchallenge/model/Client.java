@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty.AccessMode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,5 +39,10 @@ public class Client implements Serializable {
   @ApiModelProperty(required = true, value = "The born date of the client in ISO 8601",
       example = "1995-08-12", allowEmptyValue = false)
   private LocalDate bornDate;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+  @ApiModelProperty(required = false, value = "The probable death date of the client in ISO 8601",
+      example = "2095-08-12", accessMode = AccessMode.READ_ONLY)
+  private LocalDate probableDeathDate;
 
 }

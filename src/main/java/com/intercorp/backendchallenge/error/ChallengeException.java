@@ -4,7 +4,7 @@ import com.intercorp.backendchallenge.enums.ErrorEnums;
 import lombok.Getter;
 
 @Getter
-public class ChallengeException extends Exception {
+public class ChallengeException extends RuntimeException {
 
   private static final long serialVersionUID = 808308342277631087L;
 

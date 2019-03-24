@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -52,31 +53,33 @@ public class RespondAnyCallStepdefs extends SpringIntegrationTest {
   public void there_are_client_records_in_database(int initClienteNumber) throws Throwable {
     Faker faker = new Faker();
     Gson gson = new Gson();
-    IntStream.range(0, initClienteNumber).forEach(x -> {
+    List<Client> initList = IntStream.range(0, initClienteNumber).mapToObj(x -> {
       Client client = new Client();
       client.setBornDate(faker.date().birthday().toInstant().atZone(ZoneOffset.UTC).toLocalDate());
       client.setAge(challengeUtil.getAge(client.getBornDate()));
       client.setLastName(faker.name().lastName());
       client.setName(faker.name().name());
-      log.info("Saving client: " + gson.toJson(client));
-      clientDatabase.add(client);
-    });
+      log.info("Created client: " + gson.toJson(client));
+      return client;
+    }).collect(Collectors.toList());
+    clientDatabase.addAll(initList);
   }
 
   @Given("^there are some clients with the next ages (.*)$")
   public void there_are_some_clients_with_the_next_ages(List<Integer> ages) throws Throwable {
     Faker faker = new Faker();
     Gson gson = new Gson();
-    ages.stream().forEach(age -> {
+    List<Client> initList = ages.stream().map(age -> {
       Client client = new Client();
       client.setBornDate(
           faker.date().birthday(age, age).toInstant().atZone(ZoneOffset.UTC).toLocalDate());
       client.setAge(age);
       client.setLastName(faker.name().lastName());
       client.setName(faker.name().name());
-      log.info("Saving client age: " + age + " with data: " + gson.toJson(client));
-      clientDatabase.add(client);
-    });
+      log.info("Crated client with age: " + age + " and data: " + gson.toJson(client));
+      return client;
+    }).collect(Collectors.toList());
+    clientDatabase.addAll(initList);
   }
 
   @When("^the user calls to the list operation$")

@@ -13,4 +13,7 @@ public class ApplicationProperties {
   @Value("${application.max-decimals}")
   private Integer maxDecimals;
 
+  @Value("${application.maximun-age}")
+  private Integer maximunAge;
+
 }
